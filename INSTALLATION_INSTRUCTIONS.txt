@@ -1,0 +1,219 @@
+========================================================================
+POSTAL EMAIL DASHBOARD - PHP INSTALLATION INSTRUCTIONS
+========================================================================
+
+REQUIREMENTS:
+- cPanel hosting with PHP 8.2+
+- MySQL 5.7+ database
+- SSL certificate (recommended for webhook security)
+
+========================================================================
+STEP 1: UPLOAD FILES TO CPANEL
+========================================================================
+
+1. Download all PHP files from this project
+2. Upload the following files to your cPanel public_html directory:
+   - config.php
+   - login.php
+   - index.php
+   - compose.php
+   - logout.php
+   - webhook.php
+   - install.sql
+
+========================================================================
+STEP 2: CREATE MYSQL DATABASE
+========================================================================
+
+1. Log into your cPanel
+2. Go to "MySQL Databases"
+3. Create a new database (e.g., "postal_dashboard")
+4. Create a new MySQL user with a strong password
+5. Add the user to the database with ALL PRIVILEGES
+6. Note down:
+   - Database name
+   - Username
+   - Password
+   - Host (usually "localhost")
+
+========================================================================
+STEP 3: IMPORT DATABASE SCHEMA
+========================================================================
+
+1. Open phpMyAdmin in cPanel
+2. Select your newly created database
+3. Click "Import" tab
+4. Choose the "install.sql" file
+5. Click "Go" to import all tables
+6. Verify tables were created:
+   - users
+   - recipients
+   - email_templates
+   - emails
+   - email_stats
+   - settings
+
+========================================================================
+STEP 4: CONFIGURE DATABASE CONNECTION
+========================================================================
+
+1. Edit the "config.php" file
+2. Update the database configuration section:
+
+   define('DB_HOST', 'localhost');
+   define('DB_NAME', 'your_database_name');
+   define('DB_USER', 'your_database_user');
+   define('DB_PASS', 'your_database_password');
+
+3. Replace with your actual database credentials from Step 2
+
+========================================================================
+STEP 5: TEST THE INSTALLATION
+========================================================================
+
+1. Visit your website: https://yourdomain.com/login.php
+2. Login with default credentials:
+   Username: admin
+   Password: Mbg$MeM7709123
+
+3. You should see the dashboard with email statistics
+4. Test sending an email from the "Compose Email" page
+
+========================================================================
+STEP 6: CONFIGURE POSTAL WEBHOOK (IMPORTANT)
+========================================================================
+
+This step enables real-time delivery tracking:
+
+1. Login to your Postal admin panel at:
+   https://postal3.clfaceverifiy.com
+
+2. Navigate to webhook settings:
+   Settings → Webhooks OR API Configuration → Webhooks
+
+3. Add new webhook endpoint:
+   URL: https://yourdomain.com/webhook.php
+   
+4. Select these event types:
+   ✓ MessageSent
+   ✓ MessageDelivered
+   ✓ MessageBounced
+   ✓ MessageFailed
+   ✓ MessageLoadComplete (optional)
+
+5. Configure webhook settings:
+   - Request Method: POST
+   - Content Type: application/json
+   - Timeout: 30 seconds
+   - Retry Policy: 3 attempts
+
+6. Save the webhook configuration
+
+========================================================================
+STEP 7: VERIFY WEBHOOK FUNCTIONALITY
+========================================================================
+
+1. Send a test email from your dashboard
+2. Check if email status updates from "sent" to "delivered"
+3. If status doesn't update, check:
+   - Webhook URL is accessible
+   - Postal webhook is properly configured
+   - Check server error logs for webhook issues
+
+========================================================================
+SECURITY RECOMMENDATIONS
+========================================================================
+
+1. Change default admin password:
+   - Login to dashboard
+   - Go to Settings (if user management is implemented)
+   - Update password
+
+2. Secure file permissions:
+   - config.php should be 644
+   - All PHP files should be 644
+   - Database credentials should not be publicly accessible
+
+3. Enable SSL:
+   - Ensure your website uses HTTPS
+   - This is required for secure webhook communications
+
+4. Regular backups:
+   - Backup your database regularly
+   - Backup PHP files after customization
+
+========================================================================
+TROUBLESHOOTING
+========================================================================
+
+Common Issues:
+
+1. "Database connection failed":
+   - Verify database credentials in config.php
+   - Ensure database user has proper privileges
+   - Check if database exists
+
+2. "404 Not Found" for webhook:
+   - Ensure webhook.php is uploaded to root directory
+   - Check file permissions (644)
+   - Verify URL in Postal webhook settings
+
+3. Emails stuck in "sent" status:
+   - Webhook not configured properly
+   - Check Postal webhook settings
+   - Verify webhook URL is accessible
+
+4. Login not working:
+   - Check if users table was imported correctly
+   - Verify default admin user exists
+   - Clear browser cache and cookies
+
+5. Email sending fails:
+   - Verify Postal API credentials in config.php
+   - Check if Postal server is accessible
+   - Review Postal API key permissions
+
+========================================================================
+POSTAL CONFIGURATION DETAILS
+========================================================================
+
+Current configuration (already set in install.sql):
+- Postal Hostname: postal3.clfaceverifiy.com
+- Postal Domain: bmh3.clfaceverifiy.com
+- API Key: KFBcjBpjIZQbUq3AMyfhDw0c
+- Default From Email: hello@bmh3.clfaceverifiy.com
+
+To modify these settings:
+1. Edit config.php file, OR
+2. Update settings table in database
+
+========================================================================
+POST-INSTALLATION
+========================================================================
+
+After successful installation:
+
+1. Create email templates for common messages
+2. Add recipients to your contact list
+3. Configure webhook in Postal admin panel
+4. Test email delivery and tracking
+5. Monitor analytics and delivery rates
+
+========================================================================
+SUPPORT
+========================================================================
+
+For technical support:
+- Check server error logs in cPanel
+- Review Postal server documentation
+- Verify database and API connectivity
+
+Default Login Credentials:
+Username: admin
+Password: Mbg$MeM7709123
+
+IMPORTANT: Change the default password after first login!
+
+========================================================================
+END OF INSTALLATION INSTRUCTIONS
+========================================================================
